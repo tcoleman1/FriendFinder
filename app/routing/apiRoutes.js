@@ -1,15 +1,15 @@
 var friends = require("../data/friends")
 
-function apiRoutes(app){
+module.exports = function apiRoutes(app){
 
     //api GET req.
-    app.get('/api/friends',(req,res) => {
+    app.get("/api/friends",(req,res) => {
         res.json(friends);
     })
     
-    app.post('/api/friends', (req,res)=>{
+    app.post("/api/friends", (req,res)=>{
         
-        let scoresArr = [];
+
         // var diff =0;
         // var friendMatch = {
         //     name:"",
@@ -57,10 +57,8 @@ function apiRoutes(app){
 
        let friendsMatch = friends[match];
        res.json(friendsMatch)
+       
+       
+} 
+    )}
 
-       friends.push(newFriend)
-}
-
-}
-
-module.exports = apiRoutes;
