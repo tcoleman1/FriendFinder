@@ -1,6 +1,6 @@
-var friends = require("../data/friends")
+ let friends = require("../data/friends")
 
-module.exports = function apiRoutes(app){
+function apiRoutes(app){
 
     //api GET req.
     app.get("/api/friends",(req,res) => {
@@ -27,38 +27,46 @@ module.exports = function apiRoutes(app){
             scores:[]
         }
 
+        let scoresArr = [];
+
         for(var i=0; i< req.body.scores.length; i++){
             scoresArr.push(parseInt(req.body.scores[i]))
         }
 
         newFriend.scores = scoresArr;
 
-        let compareScore = [];
+        let compareScoreArr = [];
         for(var i=0; i<friends.length;i++){
 
-            let compare =0;
-            for(var k=0; k<newFriend.scores.length; k++){
-                compare += Math.abs(newFriend.scores.length[k] - friends[i].scores[k])
+            let currentComparison = 0;
+            for(var k=0; k < newFriend.scores.length; k++){
+                currentComparison += Math.abs(newFriend.scores.length[k] - friends[i].scores[k])
             }
 
-            compareScore.push(compare)
+            compareScoreArr.push(currentComparison)
         }
 
         // finding match for friend depending on array
 
 
        let match =0;
-       for(var i=1; i<compareScore.length; i++){
-           if(compareScore[i] <= compareScore[match]){
+       for(var i=1; i<compareScoreArr.length; i++){
+           if(compareScoreArr[i] <= compareScoreArr[match]){
 
             match = i;
            }
        }
 
        let friendsMatch = friends[match];
-       res.json(friendsMatch)
+       res.json(friendsMatch);
+
+       //push the new friend into the friends array
+
+       friends.push(newFriend)
        
        
 } 
     )}
+
+module.exports = apiRoutes;
 
