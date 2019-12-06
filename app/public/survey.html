@@ -135,23 +135,49 @@
     </div>
   </footer>
 
+<!-- MODAL -->
+<div id="results-modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
 
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h2 class="modal-title"><strong>Best Match</strong></h2>
+      </div>
+
+      <!-- MODAL BODY-->
+      <div class="modal-body">
+        <h2 id="match-name"></h2>
+        <img id="match-img" src="" alt="">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
   <script>
   
 
 
     $('#submit').on('click', function(e){
 
-      e.preventDefault()
+      $.ajax({url: "/api/friends", success: function(friends){
+        e.preventDefault()
+        validateForm()
+      }}) 
+
       function validateForm(){
     let isValidated = true;
     $(".form-control").each(function(){
-      if($(this).valid() === ""){
+      if($(this).val() === ""){
         isValidated = false;
       } //checking to make sure the required fields are filled in, if not then the isValidated var is set to false
     })
       $(".chosen-select").each(function(){
-        if($(this).valid() === ""){
+        if($(this).val() === ""){
           isValidated = false;
         }
       })
@@ -176,10 +202,18 @@
             ] }
       }
 
-      $.post("/api/friends", newFriend)
-        .then(function(data))
+      $.post("/api/friends", newFriend, function (friends){
 
-    })
+        $("#match-name").text(friends.name);
+        $("#match-img").attr("src", friends.photo)    
+      
+        alert(JSON.stringify("Your best match is:" + friends.matchName))
+
+      })
+  
+
+        $("#results-modal").modal("toggle");
+      })
   
   
   
