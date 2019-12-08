@@ -141,22 +141,25 @@
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
-          <span class="modal-title h2-custom text-center"><strong>BEST MATCH</strong></span>
+          <!-- <span class="modal-title h2-custom text-center"><strong>BEST MATCH</strong></span> -->
           <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
 
       <!-- MODAL BODY-->
-      <div class="modal-body text-center">
+      <div class="modal-body">
         <h2 id="match-name"></h2>
-        <img id="match-img" src="" alt="" height="350" width="300">
+        <img id="match-img" src="" alt="Match Photo" style="height:200px;width:200px;">
       </div>
       <div class="modal-footer">
-      ?  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
 
   </div>
 </div>
+</body>
+
+</html>
   <script>
   
 
@@ -201,25 +204,27 @@
               $("#question10").val()
             ] }
       
+         var currentURL = window.location.origin;
+      $.post(currentURL + "/api/friends", newFriend)
+      .then(function (data){
 
-      $.post("/api/friends", newFriend)
-      .then(function (friends){
-
-        $("#match-name").text(friends.name);
-        $("#match-img").attr("src", friends.photo)    
+        $("#match-name").text(data.name);
+        $("#match-img").attr("src", data.photo)    
 
       
         $("#results-modal").modal("toggle");
-        $("#name").val("");
-        $("#photo").val("")
+        // $("#name").val(""); // clears fields
+        // $("#photo").val("") // clears fields
        // alert(JSON.stringify("Your best match is:" + friends.matchName))
 
       })
-  
-
-      }
-
+    } else {
+      alert("please fill out all form fields before submitting")
     }
+
+    })
+
+    
   
   
   
@@ -249,6 +254,3 @@
   
 
 
-</body>
-
-</html>
