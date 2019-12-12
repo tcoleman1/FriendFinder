@@ -211,8 +211,8 @@ $(".modal-content").hide()
         $("#match-name").text(data.name);
         $("#match-img").attr("src", data.photo)    
 
-      
-        $("#results-modal").modal("toggle");
+        $(".modal-content").show()
+       // $("#results-modal").modal("toggle");
         // $("#name").val(""); // clears fields
         // $("#photo").val("") // clears fields
        // alert(JSON.stringify("Your best match is:" + friends.matchName))
